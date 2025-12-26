@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Birthday Shubhi 🎉</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            height: 100vh;
+            background: linear-gradient(270deg, #12002f, #3a007a, #000);
+            background-size: 600% 600%;
+            animation: bgMove 12s ease infinite;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+        }
+
+        @keyframes bgMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Center Content */
+        .center {
+            position: absolute;
+            top: 20%;
+            width: 100%;
+            text-align: center;
+            z-index: 5;
+        }
+
+        .center h1 {
+            font-size: 72px;
+            background: linear-gradient(90deg, gold, #ff4d4d, gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 26px;
+            color: #ffd700;
+            margin-top: 10px;
+        }
+
+        .quotes {
+            margin-top: 18px;
+            font-size: 20px;
+            color: #ffffffcc;
+            line-height: 1.7;
+            animation: slideUp 3s ease-in-out infinite alternate;
+        }
+
+        .krishna {
+            margin-top: 18px;
+            font-size: 22px;
+            color: #00e5ff;
+            text-shadow: 0 0 10px #00e5ff;
+            animation: fadeIn 2.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px gold;
+            }
+
+            to {
+                text-shadow: 0 0 35px red;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(5px);
+                opacity: 0.7;
+            }
+
+            to {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0.7;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Balloons */
+        .balloon {
+            position: absolute;
+            bottom: -120px;
+            font-size: 55px;
+            animation: float 9s linear infinite;
+        }
+
+        @keyframes float {
+            to {
+                transform: translateY(-130vh) rotate(360deg);
+            }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 3s infinite ease-in-out;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Canvas */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="fireworks"></canvas>
+
+    <div class="center">
+        <h1 id="name">🎉 HAPPY BIRTHDAY SHUBHI 🎉</h1>
+
+        <p class="subtitle">
+            👩‍💻 Computer Engineer by degree <br>
+            💡 Innovator by mind <br>
+            🚀 Achiever by heart
+        </p>
+
+        <div class="quotes">
+            <p>“You don’t just write code, you create solutions.”</p>
+            <p>“You turn coffee ☕ into code 💻 and dreams into reality ✨.”</p>
+            <p>“You debug life one problem at a time.”</p>
+            <p>“Strong logic. Sharp mind. Beautiful soul.”</p>
+        </div>
+
+        <div class="krishna">
+            🦚 May Lord Krishna bless you with wisdom, strength,<br>
+            happiness and success in every step of your life ✨🙏
+        </div>
+
+        <p style="margin-top:15px;font-size:22px;color:#ffdd57;">
+            💻 Logic in brain | ❤️ Kindness in heart | ✨ Magic in code
+        </p>
+    </div>
+
+    <!-- Balloons -->
+    <div class="balloon" style="left:10%;animation-delay:0s">🎈</div>
+    <div class="balloon" style="left:25%;animation-delay:2s">🎈</div>
+    <div class="balloon" style="left:45%;animation-delay:4s">🎈</div>
+    <div class="balloon" style="left:65%;animation-delay:1s">🎈</div>
+    <div class="balloon" style="left:85%;animation-delay:3s">🎈</div>
+
+    <!-- Sounds -->
+    <audio id="blastSound">
+        <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_1b6d6f4b38.mp3">
+    </audio>
+
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2023/03/30/audio_53a62c6dbb.mp3">
+    </audio>
+
+    <script>
+        /* ---------- Name from URL ---------- */
+        const params = new URLSearchParams(window.location.search);
+        const person = params.get("name");
+        if (person) {
+            document.getElementById("name").innerHTML =
+                `🎉 HAPPY BIRTHDAY ${person.toUpperCase()} 🎉`;
+        }
+
+        /* ---------- Audio Unlock ---------- */
+        let soundEnabled = false;
+        const blastSound = document.getElementById("blastSound");
+        const bgMusic = document.getElementById("bgMusic");
+
+        document.body.addEventListener("click", () => {
+            if (!soundEnabled) {
+                blastSound.play().then(() => {
+                    blastSound.pause();
+                    blastSound.currentTime = 0;
+                    bgMusic.play();
+                    soundEnabled = true;
+                });
+            }
+        });
+
+        /* ---------- Fireworks ---------- */
+        const canvas = document.getElementById("fireworks");
+        const ctx = canvas.getContext("2d");
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+
+        function rand(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        let fireworks = [];
+
+        function createFirework() {
+            let x = rand(100, canvas.width - 100);
+            let y = rand(80, canvas.height / 2);
+            let particles = [];
+
+            if (soundEnabled) {
+                blastSound.currentTime = 0;
+                blastSound.play();
+            }
+
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x, y,
+                    vx: rand(-6, 6),
+                    vy: rand(-6, 6),
+                    alpha: 1,
+                    color: `hsla(${rand(0, 360)},100%,60%,`
+                });
+            }
+            fireworks.push(particles);
+        }
+
+        function animate() {
+            ctx.fillStyle = "rgba(0,0,0,0.2)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (Math.random() < 0.06) createFirework();
+
+            fireworks.forEach((fw, i) => {
+                fw.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.alpha -= 0.015;
+                    ctx.fillStyle = p.color + p.alpha + ")";
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                if (fw[0].alpha <= 0) fireworks.splice(i, 1);
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        /* ---------- Sparkles ---------- */
+        for (let i = 0; i < 40; i++) {
+            let s = document.createElement("div");
+            s.className = "sparkle";
+            s.style.left = rand(0, 100) + "%";
+            s.style.top = rand(0, 100) + "%";
+            s.style.animationDelay = rand(0, 3) + "s";
+            document.body.appendChild(s);
+        }
+
+        window.onresize = () => {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+        };
+    </script>
+
+</body>
+
+</html>
